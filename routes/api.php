@@ -27,12 +27,14 @@ Route::group(['prefix' => "v1"], function () {
         Route::post("/add_user", [TestController::class, 'addUser']);
     });
 
+    // First API Solution
     Route::group(['prefix' => "assignment1"], function () {
         Route::get("/API1/{string?}", [TestController::class, 'firstAPI']);
     });
 
-    Route::group(['prefix' => "assignment1"], function () {
-        Route::get("/API1/{string?}", [TestController::class, 'firstAPI']);
+    // Second API Solution
+    Route::group(['prefix' => "assignment2"], function () {
+        Route::get("/API2/{num?}", [TestController::class, 'secondAPI']);
     });
 });
 

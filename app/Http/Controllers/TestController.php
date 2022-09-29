@@ -57,4 +57,40 @@ class TestController extends Controller
             ]
         );
     }
+
+    /* ZzZzZz */
+    function secondAPI($num)
+    {
+
+        $numlength = strlen((string)$num);
+        $resArray = array_fill(0, $numlength, 0);
+
+        for ($x = $numlength; $x > 0; $x--) {
+            if ($x > 1) {
+                $resArray[$numlength - $x] = ($num % (10 ** ($x))) - ($num % (10 ** ($x - 1)));
+            } else {
+                $resArray[$numlength - $x] = ($num % (10 ** ($x)));
+            }
+        }
+
+        if ($num < 0) {
+            $resArray = array_slice($resArray, 1, $numlength);
+        }
+
+        return response()->json(
+            [
+                "Len" => $resArray
+            ]
+        );
+    }
+
+    function thirdAPI($string)
+    {
+
+        return response()->json(
+            [
+                "Len" => $string
+            ]
+        );
+    }
 }
