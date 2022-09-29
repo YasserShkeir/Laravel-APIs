@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Hamcrest\Type\IsNumeric;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -52,8 +53,7 @@ class TestController extends Controller
 
         return response()->json(
             [
-                "Sorted" => $string,
-                "Test" => $strRes
+                "Sorted" => $strRes
             ]
         );
     }
@@ -86,10 +86,44 @@ class TestController extends Controller
 
     function thirdAPI($string)
     {
+        // I have 234 sheep 3333or 444
+        // I have 1010101010 sheep 3333or 444 (far2a3)
+        $answer = $string;
+        for ($x = 0; $x < strlen($string); $x++) {
+            if (is_numeric($string[$x])) {
+                $str = $string[$x];
+                while ($x < strlen($string) - 1 && is_numeric($string[$x + 1])) {
+                    $str .= $string[$x + 1];
+                    $x++;
+                }
+
+                // My father was born in 1974.10.25.
+                // My father was born in 11110101101011010.10.25.
+
+                $z = decbin($str);
+                echo $str . " " . $z . "\n";
+                $answer =  str_replace($str, $z, $answer);
+            }
+        }
+
 
         return response()->json(
             [
-                "Len" => $string
+                "Original" => $string,
+                "Res" => $answer
+            ]
+        );
+    }
+
+    // fourth api wowwo
+    // + 5 4
+    function fourthAPI($string)
+    {
+        $arr = explode(" ", $string);
+
+        return response()->json(
+            [
+                "Original" => $arr
             ]
         );
     }

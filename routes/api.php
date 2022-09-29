@@ -36,6 +36,16 @@ Route::group(['prefix' => "v1"], function () {
     Route::group(['prefix' => "assignment2"], function () {
         Route::get("/API2/{num?}", [TestController::class, 'secondAPI']);
     });
+
+    // Third API Solution
+    Route::group(['prefix' => "assignment3"], function () {
+        Route::get("/API3/{num?}", [TestController::class, 'thirdAPI']);
+    });
+
+    // Fourth of july
+    Route::group(['prefix' => "assignment4"], function () {
+        Route::get("/API4/{string?}", [TestController::class, 'fourthAPI']);
+    });
 });
 
 
