@@ -120,10 +120,27 @@ class TestController extends Controller
     function fourthAPI($string)
     {
         $arr = explode(" ", $string);
+        $res = 0;
+
+        if ($arr[0] == "+") {
+            $res = $arr[1] + $arr[2];
+        }
+        if ($arr[0] == "-") {
+            $res = $arr[1] - $arr[2];
+        }
+        if ($arr[0] == "*") {
+            $res = $arr[1] * $arr[2];
+        }
+        if ($arr[0] == "%") {
+            $res = $arr[1] % $arr[2];
+        }
+        if ($arr[0] == "**") {
+            $res = $arr[1] ** $arr[2];
+        }
 
         return response()->json(
             [
-                "Original" => $arr
+                "Answer" => $res
             ]
         );
     }
