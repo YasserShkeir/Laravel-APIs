@@ -65,53 +65,94 @@ class TestController extends Controller
         );
     }
 
-    // Third API
-    function thirdAPI($string)
+    // // Third API (If this still doesn't work pls use next one :3 )
+    // function thirdAPI($string)
+    // {
+    //     $answer = $string;
+    //     for ($x = 0; $x < strlen($string); $x++) {
+    //         if (is_numeric($string[$x])) {
+    //             $str = $string[$x];
+    //             while ($x < strlen($string) - 1 && is_numeric($string[$x + 1])) {
+    //                 $str .= $string[$x + 1];
+    //                 $x++;
+    //             }
+
+    //             $strRight = substr($answer, $x + 1, strlen($answer));
+
+    //             echo "strRight: " . $strRight . "\n" . "answer: " . $answer . "\n" . "str: " . $str . "\n";
+
+    //             $z = decbin($str);
+
+    //             $answer =  str_replace($str, $z, $answer);
+    //             echo "str: " . $str . "\n" . "z: " . $z . "\n";
+    //         }
+    //     }
+
+
+    //     return response()->json(
+    //         [
+    //             "Original" => $string,
+    //             "Res" => $answer
+    //         ]
+    //     );
+    // }
+
+
+    // This is working for some reason, I know there's an easier way...
+    // Couldn't finish it but I was really close :<
+    function thirdAPItest($string)
     {
         $answer = $string;
-        $arrSize = 0;
-        for ($x = 0; $x < strlen($string); $x++) {
-            if (is_numeric($string[$x])) {
-                $initIndex = $x;
-                while ($x < strlen($string) - 1 && is_numeric($string[$x + 1])) {
+
+        // echo $answer . "\n";
+
+        $arr = str_split($answer);
+        // Store all ending indexes for numbers
+        $splicers = [];
+
+        // Stores additional length for numbers; ex. 1974: we replace 1 with the binary value of 1974,
+        // 974 are the extra numbers we wont need, so 3 numbers, so returns 3 at first index
+        $splicerRepeat = [];
+
+        for ($x = 0; $x < count($arr); $x++) {
+            $startIndex = $x;
+            $endingIndex = $x;
+            if (is_numeric($arr[$x])) {
+                $str = $arr[$x];
+                while ($x < count($arr) - 1 && is_numeric($arr[$x + 1])) {
+                    $str .= $arr[$x + 1];
                     $x++;
                 }
-                $arrSize++;
-            }
-        }
-        echo "ARR SIZE" . $arrSize;
-        $resArray = array_fill(0, $arrSize, [0, 0]);
+                $endingIndex = $x;
+                array_push($splicers, $endingIndex);
+                array_push($splicerRepeat, ($endingIndex - $startIndex));
 
-        $test = "123 123 123";
-        $test2 = "sssss";
-        $test[3] = $test[3] . $test2;
-
-        for ($x = 0; $x < strlen($string); $x++) {
-            if (is_numeric($string[$x])) {
-                $str = $string[$x];
-                $initIndex = $x;
-                while ($x < strlen($string) - 1 && is_numeric($string[$x + 1])) {
-                    $str .= $string[$x + 1];
-                    $x++;
-                }
-
-                // My father was born in 1974.10.25.
-                // My father was born in 11110101101011010.10.25.
+                // echo "answer: " . $answer . "\n str: " . $str . "\n start " . $startIndex . "\n end " . $endingIndex . "\n";
 
                 $z = decbin($str);
-                echo "\n" . $str . " " . $z . "\n";
-                $answer =  substr_replace($str, $z, 0, $x - $initIndex + 1);
-                echo $answer;
-                // $answer =  str_replace($str, $z, $answer);
+
+                $arr[$startIndex] = $z;
             }
         }
 
+        for ($x = 0; $x < count($splicers); $x++) {
+            for ($y = $splicers[$x] - (int)$splicerRepeat[$x] + 1; $y < $splicers[$x]; $y++) {
+                // echo $y . " ";
+                array_splice($arr, $y, 1);
+            }
+        }
+
+        $exampleRes = "";
+        for ($x = 0; $x < count($arr); $x++) {
+            $exampleRes .= $arr[$x];
+        }
 
         return response()->json(
             [
-                "Original" => $string,
-                "Res" => $answer,
-                "ARR FADE" => $resArray
+                "Original" => $answer,
+                // "splicers" => $splicers,
+                // "SplicersRepeat" => $splicerRepeat,
+                "Answer" => $exampleRes
             ]
         );
     }

@@ -15,29 +15,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/* Start */
+// First API Solution
+Route::group(['prefix' => "assignment1"], function () {
+    Route::get("/API1/{string?}", [TestController::class, 'firstAPI']);
+});
 
-Route::group(['prefix' => "v1"], function () {
+// Second API Solution
+Route::group(['prefix' => "assignment2"], function () {
+    Route::get("/API2/{num?}", [TestController::class, 'secondAPI']);
+});
 
-    // First API Solution
-    Route::group(['prefix' => "assignment1"], function () {
-        Route::get("/API1/{string?}", [TestController::class, 'firstAPI']);
-    });
+// Third API Solution
+Route::group(['prefix' => "assignment3"], function () {
+    Route::get("/API3/{string?}", [TestController::class, 'thirdAPI']);
+});
 
-    // Second API Solution
-    Route::group(['prefix' => "assignment2"], function () {
-        Route::get("/API2/{num?}", [TestController::class, 'secondAPI']);
-    });
+// Third API Test
+Route::group(['prefix' => "assignment3t"], function () {
+    Route::get("/API3t/{string?}", [TestController::class, 'thirdAPItest']);
+});
 
-    // Third API Solution
-    Route::group(['prefix' => "assignment3"], function () {
-        Route::get("/API3/{num?}", [TestController::class, 'thirdAPI']);
-    });
-
-    // Fourth of july
-    Route::group(['prefix' => "assignment4"], function () {
-        Route::get("/API4/{string?}", [TestController::class, 'fourthAPI']);
-    });
+// Fourth of july
+Route::group(['prefix' => "assignment4"], function () {
+    Route::get("/API4/{string?}", [TestController::class, 'fourthAPI']);
 });
 
 
