@@ -84,14 +84,33 @@ class TestController extends Controller
         );
     }
 
+    // 3rd api nice
     function thirdAPI($string)
     {
         // I have 234 sheep 3333or 444
         // I have 1010101010 sheep 3333or 444 (far2a3)
         $answer = $string;
+        $arrSize = 0;
+        for ($x = 0; $x < strlen($string); $x++) {
+            if (is_numeric($string[$x])) {
+                $initIndex = $x;
+                while ($x < strlen($string) - 1 && is_numeric($string[$x + 1])) {
+                    $x++;
+                }
+                $arrSize++;
+            }
+        }
+        echo "ARR SIZE" . $arrSize;
+        $resArray = array_fill(0, $arrSize, [0, 0]);
+
+        $test = "123 123 123";
+        $test2 = "sssss";
+        $test[3] = $test[3] . $test2;
+
         for ($x = 0; $x < strlen($string); $x++) {
             if (is_numeric($string[$x])) {
                 $str = $string[$x];
+                $initIndex = $x;
                 while ($x < strlen($string) - 1 && is_numeric($string[$x + 1])) {
                     $str .= $string[$x + 1];
                     $x++;
@@ -101,8 +120,10 @@ class TestController extends Controller
                 // My father was born in 11110101101011010.10.25.
 
                 $z = decbin($str);
-                echo $str . " " . $z . "\n";
-                $answer =  str_replace($str, $z, $answer);
+                echo "\n" . $str . " " . $z . "\n";
+                $answer =  substr_replace($str, $z, 0, $x - $initIndex + 1);
+                echo $answer;
+                // $answer =  str_replace($str, $z, $answer);
             }
         }
 
@@ -110,7 +131,8 @@ class TestController extends Controller
         return response()->json(
             [
                 "Original" => $string,
-                "Res" => $answer
+                "Res" => $answer,
+                "ARR FADE" => $resArray
             ]
         );
     }
@@ -122,21 +144,40 @@ class TestController extends Controller
         $arr = explode(" ", $string);
         $res = 0;
 
-        if ($arr[0] == "+") {
-            $res = $arr[1] + $arr[2];
+        function isOperand($char)
+        {
+            if ($char == "+" || $char == "-" || $char == "*" || $char == "%" || $char == "**") {
+                return true;
+            }
+            return false;
         }
-        if ($arr[0] == "-") {
-            $res = $arr[1] - $arr[2];
+
+        function operandCalculator($arr, $index)
+        {
+            if ($arr[$index] == "+") {
+                return $res = $arr[$index + 1] + $arr[$index + 2];
+            }
+            if ($arr[$index] == "-") {
+                return $res = $arr[$index + 1] - $arr[$index + 2];
+            }
+            if ($arr[$index] == "*") {
+                return $res = $arr[$index + 1] * $arr[$index + 2];
+            }
+            if ($arr[$index] == "%") {
+                return $res = $arr[$index + 1] % $arr[$index + 2];
+            }
+            if ($arr[$index] == "**") {
+                return $res = $arr[$index + 1] ** $arr[$index + 2];
+            }
         }
-        if ($arr[0] == "*") {
-            $res = $arr[1] * $arr[2];
+
+        for ($x = 0; $x < count($arr); $x++) {
+            if (isOperand($arr[$x])) {
+                $res += operandCalculator($arr, $x);
+            }
         }
-        if ($arr[0] == "%") {
-            $res = $arr[1] % $arr[2];
-        }
-        if ($arr[0] == "**") {
-            $res = $arr[1] ** $arr[2];
-        }
+
+
 
         return response()->json(
             [
