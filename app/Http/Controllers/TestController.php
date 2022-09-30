@@ -7,36 +7,6 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
-    function getUsers()
-    {
-        return "hi controller";
-    }
-
-    function sayHi($name = "Laravel")
-    {
-        $message = "HI $name";
-
-        return response()->json(
-            [
-                "status" => "Succes",
-                "message" => $message
-            ]
-        );
-    }
-
-    function addUser(Request $request)
-    {
-        $name = $request->name;
-        $age = $request->age;
-
-        return response()->json(
-            [
-                "status" => "success",
-                "message" => $age
-            ]
-        );
-    }
-
     // First API
     function firstAPI($string)
     {

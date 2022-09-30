@@ -18,14 +18,6 @@ use Illuminate\Support\Facades\Route;
 /* Start */
 
 Route::group(['prefix' => "v1"], function () {
-    Route::group(['prefix' => "test"], function () {
-        Route::group(['middleware' => "role.admin"], function () {
-            Route::get("/users", [TestController::class, 'getUsers']);
-        });
-
-        Route::get("/hi/{name?}", [TestController::class, 'sayHi']);
-        Route::post("/add_user", [TestController::class, 'addUser']);
-    });
 
     // First API Solution
     Route::group(['prefix' => "assignment1"], function () {
